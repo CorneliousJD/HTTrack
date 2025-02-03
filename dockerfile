@@ -18,4 +18,4 @@ RUN chmod +x /startapp.sh
 EXPOSE 5800 5900
 
 # Default command to launch the VNC server and the app
-CMD ["/init"]
+CMD ["bash", "-c", "/startapp.sh && tail -f /dev/null"]
