@@ -10,7 +10,6 @@ RUN apt update && apt install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Set up the application to launch with the GUI
-RUN mkdir -p /config/startup
 COPY startapp.sh /startapp.sh
 RUN chmod +x /startapp.sh
 
@@ -19,3 +18,4 @@ EXPOSE 5800 5900
 
 # Default command to launch the VNC server and the app
 CMD ["bash", "-c", "/startapp.sh && tail -f /dev/null"]
+RUN set-cont-env APP_NAME "HTTrack"
