@@ -18,13 +18,13 @@ x11vnc -display :1 -forever -shared -rfbport 5901 &
 # Wait for Fluxbox to initialize
 sleep 2
 
-# Start WebHTTrack in the Fluxbox environment
-httrack &
+# Start WebHTTrack (GUI version) in the Fluxbox environment
+webhttrack &
 
 # Add WebHTTrack to the Fluxbox menu (optional but helpful)
 mkdir -p /root/.fluxbox
 echo "[begin] (Fluxbox)" > /root/.fluxbox/menu
-echo "  [exec] (WebHTTrack) {httrack}" >> /root/.fluxbox/menu
+echo "  [exec] (WebHTTrack) {webhttrack}" >> /root/.fluxbox/menu
 echo "[end]" >> /root/.fluxbox/menu
 
 # Keep the container running
