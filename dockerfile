@@ -1,4 +1,4 @@
-FROM jlesage/baseimage-gui:alpine-3.18
+FROM jlesage/baseimage-gui:alpine-3.20-v4
 
 # Set application information
 ENV APP_NAME="HTTrack"
