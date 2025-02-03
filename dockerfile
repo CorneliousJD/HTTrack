@@ -4,10 +4,11 @@ FROM ubuntu:latest
 ENV DEBIAN_FRONTEND=noninteractive
 ENV DISPLAY=:99
 ENV HOME=/webhttrack_home
+ENV BROWSER=none  # Prevents WebHTTrack from trying to launch a browser
 
 # Install required packages
 RUN apt update && \
-    apt install -y webhttrack apache2 xvfb && \
+    apt install -y webhttrack apache2 xvfb libx11-6 xdg-utils && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -23,4 +24,4 @@ WORKDIR /webhttrack_home
 # Start Apache, Xvfb, and WebHTTrack
 CMD service apache2 start && \
     Xvfb :99 -screen 0 1024x768x16 & \
-    /usr/bin/webhttrack --port 8080 --nobrowser --config /config --path /websites
+    webhttrack --port 8080 --nobrowser --path /websites --config /config
