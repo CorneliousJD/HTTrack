@@ -3,20 +3,19 @@ FROM ubuntu:latest
 # Set non-interactive frontend
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install required packages
+# Install necessary packages
 RUN apt update && \
-    apt install -y webhttrack apache2 supervisor && \
+    apt install -y webhttrack apache2 xvfb supervisor && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
-
-# Create directories for persistent storage
-VOLUME ["/config", "/websites"]
 
 # Expose the WebHTTrack default port
 EXPOSE 8080
 
-# Create Supervisor configuration file
-RUN mkdir -p /etc/supervisor/conf.d
+# Create necessary directories
+VOLUME ["/config", "/websites"]
+
+# Copy Supervisor configuration file
 COPY webhttrack_supervisord.conf /etc/supervisor/conf.d/webhttrack.conf
 
 # Start Supervisor to manage processes
