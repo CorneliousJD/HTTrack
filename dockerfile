@@ -4,8 +4,7 @@ FROM ubuntu:latest
 ENV DEBIAN_FRONTEND=noninteractive
 ENV DISPLAY=:99
 ENV HOME=/webhttrack_home
-ENV BROWSER=none  
-# Prevents WebHTTrack from trying to launch a browser
+ENV BROWSER=none
 
 # Install required packages
 RUN apt update && \
@@ -14,7 +13,11 @@ RUN apt update && \
     rm -rf /var/lib/apt/lists/*
 
 # Create required directories
-RUN mkdir -p /webhttrack_home/.httrack /websites /config
+RUN mkdir -p /webhttrack_home/.httrack /websites /config && \
+    chown -R www-data:www-data /webhttrack_home /websites /config
+
+# Set Apache ServerName to prevent warnings
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 # Expose the WebHTTrack UI port
 EXPOSE 8080
@@ -22,7 +25,7 @@ EXPOSE 8080
 # Set working directory
 WORKDIR /webhttrack_home
 
-# Start Apache, Xvfb, and WebHTTrack
+# Start Apache, Xvfb, and HTS Server
 CMD service apache2 start && \
     Xvfb :99 -screen 0 1024x768x16 & \
-    webhttrack --port 8080 --nobrowser --path /websites --config /config
+    htsserver --port 8080 /websites
