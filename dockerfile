@@ -25,7 +25,7 @@ EXPOSE 8080
 # Set working directory
 WORKDIR /webhttrack_home
 
-# Start Apache, Xvfb, and HTS Server
+# Start services and keep them running
 CMD service apache2 start && \
     Xvfb :99 -screen 0 1024x768x16 & \
-    htsserver --port 8080 /websites
+    exec htsserver --port 8080 /websites
