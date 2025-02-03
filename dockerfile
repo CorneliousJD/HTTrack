@@ -22,10 +22,6 @@ RUN wget -qO- https://github.com/novnc/noVNC/archive/v1.2.0.tar.gz | tar xz -C /
     mv /opt/noVNC-1.2.0 /opt/novnc && \
     ln -s /opt/novnc/vnc_lite.html /opt/novnc/index.html
 
-# Set up VNC and noVNC
-RUN mkdir -p /root/.vnc
-RUN x11vnc -storepasswd 1234 /root/.vnc/passwd
-
 # Expose the noVNC port (updated to 5800)
 EXPOSE 5800
 
