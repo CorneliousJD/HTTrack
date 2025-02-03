@@ -19,13 +19,14 @@ RUN mkdir -p /webhttrack_home/.httrack /websites /config && \
 # Set Apache ServerName to prevent warnings
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
-# Expose the WebHTTrack UI port
+# Expose WebHTTrack UI port
 EXPOSE 8080
 
 # Set working directory
 WORKDIR /webhttrack_home
 
-# Start services and keep them running
+# Start Apache and htsserver in foreground
 CMD service apache2 start && \
     Xvfb :99 -screen 0 1024x768x16 & \
-    exec htsserver --port 8080 /websites
+    tail -f /var/log/apache2/access.log & \
+    exec htsserver --port 8080 --quiet /websites
