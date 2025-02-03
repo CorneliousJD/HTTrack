@@ -4,7 +4,8 @@ FROM ubuntu:latest
 ENV DEBIAN_FRONTEND=noninteractive
 ENV DISPLAY=:99
 ENV HOME=/webhttrack_home
-ENV BROWSER=none  # Prevents WebHTTrack from trying to launch a browser
+ENV BROWSER=none  
+# Prevents WebHTTrack from trying to launch a browser
 
 # Install required packages
 RUN apt update && \
