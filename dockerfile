@@ -10,5 +10,11 @@ RUN apt-get update && \
     httrack \
     && rm -rf /var/lib/apt/lists/*
 
-# Setup the default command to start HTTrack in a GUI session
-CMD ["bash", "-c", "startvnc.sh && httrack --help"]
+# Create the custom startapp.sh script to launch HTTrack via GUI
+RUN echo '#!/bin/bash\n\
+# Start HTTrack inside the desktop environment\n\
+httrack --help' > /startapp.sh && \
+    chmod +x /startapp.sh
+
+# Set the entrypoint to start the VNC session and HTTrack
+CMD ["/startapp.sh"]
