@@ -19,8 +19,8 @@ jobs:
 
       - name: Build and Tag Docker Image
         run: |
-          docker build -t ghcr.io/${{ github.repository_owner }}/httrack-vnc:latest .
+          docker build -t ghcr.io/corneliousjd/httrack:latest .
 
       - name: Push Docker Image to GHCR
         run: |
-          docker push ghcr.io/${{ github.repository_owner }}/httrack-vnc:latest
+          docker push ghcr.io/corneliousjd/httrack:latest
