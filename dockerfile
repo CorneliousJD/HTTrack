@@ -11,8 +11,8 @@ RUN apt update && apt install -y \
 
 # Set up the application to launch with the GUI
 RUN mkdir -p /config/startup
-COPY startapp.sh /config/startup/startapp.sh
-RUN chmod +x /config/startup/startapp.sh
+COPY startapp.sh /startapp.sh
+RUN chmod +x /startapp.sh
 
 # Expose ports for VNC and Web Viewer (VNC access is on 5900, WebViewer on 6080)
 EXPOSE 5800 5900
