@@ -1,6 +1,13 @@
-#!/bin/sh
-# Start HTTrack in the background
+#!/bin/bash
+
+# Start HTTrack (if applicable)
 httrack --update --quiet &
 
-# Start the default GUI session (openbox in this case)
-exec openbox-session
+# Start the VNC server in the background
+x11vnc -forever -usepw -create &
+
+# Start Openbox session in the background
+openbox-session &
+
+# Wait forever to keep the container alive
+tail -f /dev/null
