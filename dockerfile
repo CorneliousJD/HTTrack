@@ -1,7 +1,9 @@
 FROM ubuntu:latest
 
-# Set non-interactive frontend
+# Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
+ENV DISPLAY=:99
+ENV HOME=/webhttrack_home
 
 # Install necessary packages
 RUN apt update && \
@@ -9,14 +11,17 @@ RUN apt update && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Expose the WebHTTrack default port
+# Create required directories
+RUN mkdir -p /webhttrack_home/.httrack /websites /config
+
+# Expose WebHTTrack UI port
 EXPOSE 8080
 
-# Create necessary directories
-VOLUME ["/config", "/websites"]
-
-# Copy Supervisor configuration file
+# Copy Supervisor configuration
 COPY webhttrack_supervisord.conf /etc/supervisor/conf.d/webhttrack.conf
 
-# Start Supervisor to manage processes
+# Set working directory
+WORKDIR /webhttrack_home
+
+# Start Supervisor
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
