@@ -1,32 +1,40 @@
-FROM ubuntu:latest
+# Use a base image with a desktop environment and browser
+FROM ubuntu:20.04
 
-# Set environment variables
+# Set environment variables to avoid interactive prompts during package installation
 ENV DEBIAN_FRONTEND=noninteractive
-ENV DISPLAY=:99
-ENV HOME=/webhttrack_home
-ENV BROWSER=none
 
-# Install required packages
-RUN apt update && \
-    apt install -y webhttrack apache2 xvfb libx11-6 xdg-utils && \
-    apt clean && \
-    rm -rf /var/lib/apt/lists/*
+# Install dependencies and WebHTTrack
+RUN apt-get update && \
+    apt-get install -y \
+    wget \
+    xvfb \
+    x11vnc \
+    xterm \
+    fluxbox \
+    websockify \
+    net-tools \
+    httrack \
+    && rm -rf /var/lib/apt/lists/*
 
-# Create required directories
-RUN mkdir -p /webhttrack_home/.httrack /websites /config && \
-    chown -R www-data:www-data /webhttrack_home /websites /config
+# Install noVNC (web-based VNC client)
+RUN wget -qO- https://github.com/novnc/noVNC/archive/v1.2.0.tar.gz | tar xz -C /opt && \
+    mv /opt/noVNC-1.2.0 /opt/novnc && \
+    ln -s /opt/novnc/vnc_lite.html /opt/novnc/index.html
 
-# Set Apache ServerName to prevent warnings
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+# Set up VNC and noVNC
+RUN mkdir -p /root/.vnc
+RUN x11vnc -storepasswd 1234 /root/.vnc/passwd
 
-# Expose WebHTTrack UI port
-EXPOSE 8080
+# Expose the noVNC port (updated to 5800)
+EXPOSE 5800
 
-# Set working directory
-WORKDIR /webhttrack_home
+# Start script to launch WebHTTrack and noVNC
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
 
-# Start Apache and htsserver in foreground
-CMD service apache2 start && \
-    Xvfb :99 -screen 0 1024x768x16 & \
-    tail -f /var/log/apache2/access.log & \
-    exec htsserver --port 8080 --quiet /websites
+# Set the working directory
+WORKDIR /root
+
+# Command to run the start script
+CMD ["/start.sh"]
