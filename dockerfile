@@ -4,7 +4,7 @@ FROM ubuntu:20.04
 # Set environment variables to avoid interactive prompts during package installation
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install dependencies and WebHTTrack
+# Install dependencies and WebHTTrack (GUI version)
 RUN apt-get update && \
     apt-get install -y \
     wget \
@@ -14,7 +14,7 @@ RUN apt-get update && \
     fluxbox \
     websockify \
     net-tools \
-    httrack \
+    webhttrack \
     && rm -rf /var/lib/apt/lists/*
 
 # Install noVNC (web-based VNC client)
