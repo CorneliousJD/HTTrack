@@ -4,12 +4,30 @@ FROM jlesage/baseimage-gui:debian-11
 # Set environment variables to ensure non-interactive installation
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install HTTrack and its dependencies (including the GUI)
+# Install dependencies including HTTrack and other required tools
 RUN apt-get update && \
     apt-get install -y \
     httrack \
     x11vnc \
+    build-essential \
+    cmake \
+    git \
+    libqt5webkit5-dev \
+    qtbase5-dev \
+    qtchooser \
+    qt5-qmake \
+    qtbase5-dev-tools \
     && rm -rf /var/lib/apt/lists/*
+
+# Clone HTTrack's repository and build the GUI
+RUN git clone https://github.com/httrack/httrack.git /httrack && \
+    cd /httrack && \
+    git checkout master && \
+    ./bootstrap && \
+    ./configure && \
+    make && \
+    make install && \
+    rm -rf /httrack
 
 # Create the custom startapp.sh script to launch HTTrack GUI via VNC
 RUN echo '#!/bin/bash\n\
