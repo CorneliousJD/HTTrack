@@ -19,15 +19,9 @@ RUN apt-get update && \
     qtbase5-dev-tools \
     && rm -rf /var/lib/apt/lists/*
 
-# Clone HTTrack's repository and build the GUI
-RUN git clone https://github.com/httrack/httrack.git /httrack && \
-    cd /httrack && \
-    git checkout master && \
-    ./bootstrap && \
-    ./configure && \
-    make && \
-    make install && \
-    rm -rf /httrack
+# Try installing HTTrack via apt package if possible (easier and more reliable)
+RUN apt-get update && \
+    apt-get install -y webhttrack
 
 # Create the custom startapp.sh script to launch HTTrack GUI via VNC
 RUN echo '#!/bin/bash\n\
