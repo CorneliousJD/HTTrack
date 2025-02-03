@@ -27,7 +27,8 @@ RUN apt-get update && \
 RUN echo '#!/bin/bash\n\
 # Start Xvnc with the appropriate display settings\n\
 export DISPLAY=:1\n\
-x11vnc -display $DISPLAY -forever -usepw -create &\n\
+# Start x11vnc without password requirement\n\
+x11vnc -display $DISPLAY -nopw -forever -create &\n\
 # Run the HTTrack GUI\n\
 webhttrack' > /startapp.sh && \
     chmod +x /startapp.sh
