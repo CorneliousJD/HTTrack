@@ -1,20 +1,23 @@
-# Use a lightweight Debian base image
-FROM debian:latest
+FROM ubuntu:latest
 
-# Set environment variables
+# Set non-interactive frontend
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Update package list and install webhttrack and dependencies
+# Install required packages
 RUN apt update && \
-    apt install -y webhttrack apache2 && \
+    apt install -y webhttrack apache2 supervisor && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Expose the default WebHTTrack port
-EXPOSE 8080
-
-# Create directories for persistent data
+# Create directories for persistent storage
 VOLUME ["/config", "/websites"]
 
-# Define the entrypoint script
-CMD ["webhttrack", "--port", "8080", "--config", "/config", "--path", "/websites"]
+# Expose the WebHTTrack default port
+EXPOSE 8080
+
+# Create Supervisor configuration file
+RUN mkdir -p /etc/supervisor/conf.d
+COPY webhttrack_supervisord.conf /etc/supervisor/conf.d/webhttrack.conf
+
+# Start Supervisor to manage processes
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
