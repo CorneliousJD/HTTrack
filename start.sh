@@ -6,6 +6,10 @@ Xvfb :1 -screen 0 1280x960x16 &
 # Set the DISPLAY environment variable
 export DISPLAY=:1
 
+# Start D-Bus
+mkdir -p /var/run/dbus
+dbus-daemon --system --fork
+
 # Start fluxbox (window manager)
 fluxbox &
 
@@ -21,9 +25,6 @@ sleep 2
 # Start autocutsel to synchronize the clipboard
 autocutsel -selection PRIMARY -fork &
 autocutsel -selection CLIPBOARD -fork &
-
-# Start xfce4-clipman to manage the clipboard
-xfce4-clipman &
 
 # Start WebHTTrack (GUI version) in the Fluxbox environment
 webhttrack &
