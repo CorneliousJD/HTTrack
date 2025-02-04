@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Start Xvfb (virtual framebuffer)
-Xvfb :1 -screen 0 1280×960x16 &
+Xvfb :1 -screen 0 1280x960x16 &
 
 # Set the DISPLAY environment variable
 export DISPLAY=:1
