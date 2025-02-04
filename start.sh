@@ -19,7 +19,8 @@ x11vnc -display :1 -forever -shared -rfbport 5901 &
 sleep 2
 
 # Start autocutsel to synchronize the clipboard
-autocutsel -fork &
+autocutsel -selection PRIMARY -fork &
+autocutsel -selection CLIPBOARD -fork &
 
 # Start xfce4-clipman to manage the clipboard
 xfce4-clipman &
