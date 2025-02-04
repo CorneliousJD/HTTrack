@@ -15,6 +15,8 @@ RUN apt-get update && \
     websockify \
     net-tools \
     webhttrack \
+    autocutsel \
+    xfce4-clipman \
     && rm -rf /var/lib/apt/lists/*
 
 # Install noVNC (web-based VNC client)
