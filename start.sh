@@ -10,7 +10,7 @@ export DISPLAY=:1
 fluxbox &
 
 # Start x11vnc (VNC server) without password
-x11vnc -display :1 -forever -shared -rfbport 5901 &
+x11vnc -display :1 -forever -shared -rfbport 5901 & -clipboard &
 
 # Start noVNC (web-based VNC client) on port 5800
 /opt/novnc/utils/launch.sh --vnc localhost:5901 --listen 5800 --web /opt/novnc &
