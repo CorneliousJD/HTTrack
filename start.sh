@@ -18,6 +18,12 @@ x11vnc -display :1 -forever -shared -rfbport 5901 &
 # Wait for Fluxbox to initialize
 sleep 2
 
+# Start autocutsel to synchronize the clipboard
+autocutsel -fork &
+
+# Start xfce4-clipman to manage the clipboard
+xfce4-clipman &
+
 # Start WebHTTrack (GUI version) in the Fluxbox environment
 webhttrack &
 
