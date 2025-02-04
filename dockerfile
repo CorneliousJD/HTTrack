@@ -16,9 +16,7 @@ RUN apt-get update && \
     net-tools \
     webhttrack \
     autocutsel \
-    dbus-x11 \
-    libpci3 \
-    libegl1 \
+    xfce4-clipman \
     && rm -rf /var/lib/apt/lists/*
 
 # Install noVNC (web-based VNC client)
